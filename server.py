@@ -22,7 +22,7 @@ def chat():
 
     try:
         configure_gemini(api_key)
-        model = genai.GenerativeModel('gemini-3.5-flash')
+        model = genai.GenerativeModel('gemini-flash-latest')
         
         prompt = f"""
         You are ScholarAI, a helpful college assistant. 
@@ -41,11 +41,11 @@ def chat():
         response = model.generate_content(prompt)
         text = response.text
         
-        # Clean markdown formatting if present
         text = text.replace("```json", "").replace("```", "").strip()
         result = json.loads(text)
         
         return jsonify(result)
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -60,7 +60,7 @@ def search_scholarships():
 
     try:
         configure_gemini(api_key)
-        model = genai.GenerativeModel('gemini-2.5-pro')
+        model = genai.GenerativeModel('gemini-pro-latest')
         
         # 1. Ask Gemini to generate search queries based on the profile
         query_prompt = f"Based on this student profile: '{profile}', generate 3 specific DuckDuckGo search queries to find active non-essay scholarships. Return ONLY a comma-separated list of the 3 queries."
@@ -104,12 +104,19 @@ def search_scholarships():
         text = response.text
         
         text = text.replace("```json", "").replace("```", "").strip()
-        # Find the first [ and last ] to safely parse
+        
         start_idx = text.find('[')
         end_idx = text.rfind(']') + 1
-        json_str = text[start_idx:end_idx]
         
-        scholarships = json.loads(json_str)
+        if start_idx != -1 and end_idx > 0:
+            json_str = text[start_idx:end_idx]
+        else:
+            json_str = text
+            
+        try:
+            scholarships = json.loads(json_str)
+        except json.JSONDecodeError as je:
+            raise Exception(f"JSON parsing error: {je}. Raw output: {text[:300]}")
         
         return jsonify({'scholarships': scholarships})
     except Exception as e:

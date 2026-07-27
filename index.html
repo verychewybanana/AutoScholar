@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarAI - Personal College Assistant</title>
+    <meta name="description" content="AI-powered college assistant to help you find and apply for scholarships seamlessly.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-background"></div>
+    
+    <header class="app-header">
+        <div class="logo">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>ScholarAI</span>
+        </div>
+        <nav class="header-nav">
+            <button class="icon-btn" aria-label="Settings"><i class="fa-solid fa-gear"></i></button>
+            <div class="user-profile">
+                <img src="https://i.pravatar.cc/150?img=47" alt="User Avatar">
+            </div>
+        </nav>
+    </header>
+
+    <main class="app-container">
+        <!-- Left Panel: AI Chat & Profile Builder -->
+        <section class="chat-section glass-panel">
+            <div class="panel-header">
+                <h2><i class="fa-solid fa-wand-magic-sparkles"></i> AI Assistant</h2>
+                <p>Upload your resume or chat to build your profile.</p>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai-message">
+                    <div class="avatar"><i class="fa-solid fa-robot"></i></div>
+                    <div class="bubble">
+                        Hello! I'm your Personal College Assistant. To find the best non-essay scholarships for you, please upload your resume or tell me a bit about yourself (GPA, major, background, interests).
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-input-area">
+                <div class="upload-wrapper">
+                    <label for="resumeUpload" class="upload-btn" title="Upload Resume">
+                        <i class="fa-solid fa-paperclip"></i>
+                    </label>
+                    <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx,.txt" hidden>
+                </div>
+                <input type="text" id="chatInput" placeholder="Type your message here..." autocomplete="off">
+                <button id="sendBtn" class="primary-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </section>
+
+        <!-- Right Panel: Dashboard & Results -->
+        <section class="dashboard-section glass-panel">
+            <div class="panel-header dashboard-header">
+                <div class="header-titles">
+                    <h2><i class="fa-solid fa-list-check"></i> Matched Scholarships</h2>
+                    <p>Opportunities tailored to your profile.</p>
+                </div>
+                <div class="action-buttons">
+                    <button id="exportBtn" class="secondary-btn" disabled>
+                        <i class="fa-solid fa-file-excel"></i> Export to Sheets
+                    </button>
+                    <button id="autofillBtn" class="primary-btn" disabled>
+                        <i class="fa-solid fa-bolt"></i> Autofill Apps
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="scholarship-table">
+                    <thead>
+                        <tr>
+                            <th>Scholarship Name</th>
+                            <th>Category</th>
+                            <th>Deadline</th>
+                            <th>Amount</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scholarshipList">
+                        <!-- Empty state -->
+                        <tr class="empty-state">
+                            <td colspan="5">
+                                <div class="empty-content">
+                                    <i class="fa-regular fa-folder-open"></i>
+                                    <p>Chat with the AI to discover scholarships.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="dashboard-footer">
+                <span id="matchCount">0 matches found</span>
+            </div>
+        </section>
+    </main>
+
+    <!-- Help Widget (Floating) -->
+    <div class="help-widget-container">
+        <button class="help-toggle-btn" id="helpToggleBtn" aria-label="Help">
+            <i class="fa-solid fa-question"></i>
+        </button>
+        <div class="help-widget-panel glass-panel" id="helpWidgetPanel">
+            <div class="help-header">
+                <h3>Support</h3>
+                <button id="closeHelpBtn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="help-messages" id="helpMessages">
+                <div class="message ai-message">
+                    <div class="bubble">Need help navigating the app or understanding a scholarship? Ask me anything!</div>
+                </div>
+            </div>
+            <div class="chat-input-area help-input-area">
+                <input type="text" id="helpInput" placeholder="Ask for help...">
+                <button id="sendHelpBtn" class="primary-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export/Autofill Modal -->
+    <div class="modal-overlay" id="actionModal">
+        <div class="modal-content glass-panel">
+            <div class="modal-header">
+                <h3 id="modalTitle">Action</h3>
+                <button id="closeModalBtn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content injected dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button id="cancelModalBtn" class="secondary-btn">Cancel</button>
+                <button id="confirmModalBtn" class="primary-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

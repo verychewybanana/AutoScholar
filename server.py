@@ -22,7 +22,7 @@ def chat():
 
     try:
         configure_gemini(api_key)
-        model = genai.GenerativeModel('gemini-2.5-pro')
+        model = genai.GenerativeModel('gemini-3.5-flash')
         
         prompt = f"""
         You are ScholarAI, a helpful college assistant. 

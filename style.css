@@ -112,6 +112,10 @@ p { color: var(--text-secondary); }
     gap: 1.5rem;
 }
 
+.user-profile {
+    display: flex;
+    align-items: center;
+}
 .user-profile img {
     width: 40px;
     height: 40px;

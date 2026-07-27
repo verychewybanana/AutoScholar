@@ -44,19 +44,26 @@ const modalBody = document.getElementById('modalBody');
 // --- Settings Logic ---
 settingsBtn.addEventListener('click', () => {
     geminiApiKeyInput.value = geminiApiKey;
+    closeSettingsBtn.style.display = 'block';
     settingsModal.classList.add('show');
 });
 
 closeSettingsBtn.addEventListener('click', () => {
-    settingsModal.classList.remove('show');
+    if (geminiApiKey) {
+        settingsModal.classList.remove('show');
+    }
 });
 
 saveSettingsBtn.addEventListener('click', () => {
-    geminiApiKey = geminiApiKeyInput.value.trim();
-    localStorage.setItem('geminiApiKey', geminiApiKey);
-    settingsModal.classList.remove('show');
-    if (geminiApiKey) {
+    const val = geminiApiKeyInput.value.trim();
+    if (val) {
+        geminiApiKey = val;
+        localStorage.setItem('geminiApiKey', geminiApiKey);
+        settingsModal.classList.remove('show');
+        geminiApiKeyInput.style.borderColor = 'var(--panel-border)';
         addMessage(chatMessages, "System: API Key saved successfully. You can now chat and search for scholarships.", 'ai');
+    } else {
+        geminiApiKeyInput.style.borderColor = 'var(--danger)';
     }
 });
 
@@ -379,7 +386,9 @@ function startAutofillSimulation(count) {
 
 // Initialization check
 if (!geminiApiKey) {
+    settingsModal.classList.add('show');
+    closeSettingsBtn.style.display = 'none'; // Hide close button until key is provided
     setTimeout(() => {
-        addMessage(chatMessages, "Hi! To get started, please click the gear icon in the top right to enter your Gemini API Key.", 'ai');
-    }, 1000);
+        addMessage(chatMessages, "Hi! To get started, please enter your Gemini API Key in the settings window. This is required for the AI to function.", 'ai');
+    }, 500);
 }

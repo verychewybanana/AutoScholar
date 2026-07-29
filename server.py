@@ -80,13 +80,13 @@ def search_scholarships():
                 
         context = "\n\n".join(search_results)
         
-        # 3. Ask Gemini to extract and supplement to reach a large list (user requested ~100, we'll aim for 50-100 to avoid timeout)
+        # 3. Ask Gemini to extract and supplement to reach a list of 10 scholarships
         extraction_prompt = f"""
         You are a scholarship finder. Based on the student profile: "{profile}"
         And based on these REAL web search results:
         {context}
         
-        Create a list of active, real scholarships. Extract as many as you can from the search results, and supplement with other real, known scholarships matching the profile from your knowledge base to get as close to 50-100 as possible.
+        Create a list of exactly 10 active, real scholarships. Extract from the search results, and supplement with other real, known scholarships matching the profile from your knowledge base.
         
         Return the data STRICTLY as a JSON array of objects with these keys: name, category, deadline, amount, link.
         Ensure every link is a real, absolute URL (starting with http).

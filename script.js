@@ -145,7 +145,7 @@ async function handleSendMainChat() {
         if (data.is_profile_complete) {
             studentProfile.info = text;
             const typingId2 = showTypingIndicator(chatMessages);
-            addMessage(chatMessages, "Searching the web for ~100 real scholarships based on your profile... This might take a minute.", 'ai');
+            addMessage(chatMessages, "Searching for scholarships based on your profile... This might take a minute.", 'ai');
             
             try {
                 const searchResponse = await fetch('http://localhost:5000/api/search_scholarships', {
